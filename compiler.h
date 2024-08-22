@@ -6,7 +6,7 @@
 #include <stdint.h>
 #include <stdio.h>
 
-#include "tokenizer.h"
+#include "scan.h"
 
 typedef enum {
     INFILE     = 1,
