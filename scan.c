@@ -3,7 +3,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-#include "tokenizer.h"
+#include "scan.h"
 #include "compiler.h"
 
 // forwards
@@ -128,4 +128,12 @@ next_token(Tokenizer* tokenizer) {
     advance_buffer(tokenizer);
 
     return token;
+}
+
+void cc2_tokenize_source() {
+    Token token;
+
+    while ((token = next_token(compiler.tokenizer))
+            .type != TOKEN_EOF)
+        printf("%s\n", token.value);
 }
