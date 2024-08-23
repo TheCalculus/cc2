@@ -3,8 +3,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-#include "scan.h"
 #include "compiler.h"
+#include "scan.h"
 
 // forwards
 static Token next_token         (Tokenizer* tokenizer);
