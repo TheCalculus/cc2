@@ -59,6 +59,6 @@ typedef struct {
     TokenFlags flags;
 } Token;
 
-void cc2_tokenize_source();
+void thicc_tokenize_source();
 
 #endif
