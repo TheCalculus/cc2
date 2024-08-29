@@ -1,0 +1,81 @@
+
+;; Function main (main, funcdef_no=0, decl_uid=2344, cgraph_uid=1, symbol_order=0)
+
+
+Analyzing function body size: main/0
+
+IPA function summary for main/0
+  global time:     49.000000
+  self size:       23
+  global size:     0
+  min size:       0
+  self stack:      0
+  global stack:    0
+    size:11.000000, time:12.000000
+    size:2.000000, time:0.000000,  executed if:(not inlined)
+  calls:
+    printf/1 function body not available
+      freq:1.00 loop depth: 0 size: 4 time: 13
+    printf/1 function body not available
+      freq:1.00 loop depth: 1 size: 3 time: 12
+    printf/1 function body not available
+      freq:1.00 loop depth: 0 size: 3 time: 12
+
+int main ()
+{
+  int i;
+  int integer;
+  int D.2359;
+  int _2;
+  int _9;
+  int _15;
+
+  <bb 2> :
+  integer_5 = 0;
+  printf ("%d\n", integer_5);
+  i_8 = 0;
+  goto <bb 4>; [INV]
+
+  <bb 3> :
+  printf ("iter %d\n", i_1);
+  i_17 = i_1 + 1;
+
+  <bb 4> :
+  # i_1 = PHI <i_8(2), i_17(3)>
+  if (i_1 < integer_5)
+    goto <bb 3>; [INV]
+  else
+    goto <bb 5>; [INV]
+
+  <bb 5> :
+  if (i_1 <= integer_5)
+    goto <bb 6>; [INV]
+  else
+    goto <bb 7>; [INV]
+
+  <bb 6> :
+  integer_10 = integer_5 | 10;
+  integer_11 = integer_10 & 2;
+  integer_12 = integer_11 ^ 1;
+  integer_13 = ~integer_12;
+  goto <bb 8>; [INV]
+
+  <bb 7> :
+  _9 = -1;
+  // predicted unlikely by early return (on trees) predictor.
+  goto <bb 10>; [INV]
+
+  <bb 8> :
+  printf ("%d, %s\n", 1, "true");
+
+  <bb 9> :
+  _15 = integer_13 + 1;
+
+  <bb 10> :
+  # _2 = PHI <_9(7), _15(9)>
+<L8>:
+  return _2;
+
+}
+
+
