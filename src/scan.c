@@ -3,7 +3,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-#include "compiler.h"
+#include "thicc.h"
 #include "scan.h"
 
 // forwards
@@ -130,10 +130,10 @@ next_token(Tokenizer* tokenizer) {
     return token;
 }
 
-void cc2_tokenize_source() {
+void thicc_tokenize_source() {
     Token token;
 
     while ((token = next_token(compiler.tokenizer))
             .type != TOKEN_EOF)
-        printf("%s\n", token.value);
+        printf("%s", token.value);
 }

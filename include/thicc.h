@@ -1,5 +1,5 @@
-#ifndef COMPILER_H
-#define COMPILER_H
+#ifndef THICC_H
+#define THICC_H
 
 #include <stdbool.h>
 #include <stddef.h>

@@ -4,7 +4,7 @@
 #include <stdlib.h>
 #include <string.h>
 
-#include "compiler.h"
+#include "thicc.h"
 #include "scan.h"
 
 ccalculus compiler = { 0 };
@@ -37,7 +37,7 @@ void argparse(int argc, char** argv) {
 
 int main(int argc, char** argv) {
     if (argc < 2) {
-        fprintf(stderr, "usage: cc2 -s [source] -o [out]\n");
+        fprintf(stderr, "usage: thicc -s [source] -o [out]\n");
         fprintf(stderr, "expected argument, received none\n");
         return -1;
     }
@@ -47,7 +47,7 @@ int main(int argc, char** argv) {
     compiler.buffer = fopen(compiler.buffname, "rb");
     compiler.tokenizer = &(Tokenizer) { 0 };
 
-    cc2_tokenize_source();
+    thicc_tokenize_source();
 
     fclose(compiler.buffer);
     return 0;
