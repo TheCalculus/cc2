@@ -6,15 +6,7 @@
 #include <stdint.h>
 #include <stdio.h>
 
-typedef enum {
-    UNSIGNED   = 1,
-    STATIC     = 2,
-    CONST      = 4,
-    POINTER    = 8,
-    ARRAY      = 16,
-    EXTERN     = 32,
-    LITERAL    = 64,
-} token_flags;
+#include "general.h"
 
 typedef enum {
     TOKEN_LITERAL,
@@ -39,24 +31,23 @@ typedef enum {
     TOKEN_AMPERSAND,
     TOKEN_ASTERISK,
     TOKEN_EOF,
-} token_type;
+} TokenType;
 
 typedef struct {
-    char**     filename;
-    uint8_t    row;
-    uint8_t    col;
+    uint8_t source_id;
+    uint8_t row;
+    uint8_t col;
 } SymbolPos;
 
 typedef struct {
-    char       active;
-    // token sequence
+    char    active;
+    Vector* tokens;
 } Tokenizer;
 
 typedef struct {
-    char       value[64];
-    SymbolPos  pos;
-    TokenType  type;
-    TokenFlags flags;
+    char value[64];
+    SymbolPos pos;
+    TokenType type;
 } Token;
 
 void thicc_tokenize_source();

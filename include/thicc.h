@@ -7,6 +7,7 @@
 #include <stdio.h>
 
 #include "scan.h"
+#include "parse.h"
 
 typedef enum {
     INFILE     = 1,
@@ -17,14 +18,16 @@ typedef struct {
     FILE*      buffer;
     char*      buffname; 
     Tokenizer* tokenizer;
+    Parser*    parser;
+
     SymbolPos  pos;
   
     CompFlags  flags;
     FILE*      outfile;
     char*      outname;
-} ccalculus;
+} thicc;
 
-extern ccalculus compiler;
+extern thicc compiler;
 
 void argparse(int argc, char** argv);
 
