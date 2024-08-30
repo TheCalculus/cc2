@@ -4,6 +4,8 @@
 #include "scan.h"
 #include "parse.h"
 
+
+
 void thicc_parse_tokens() {
 
 }

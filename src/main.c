@@ -7,7 +7,7 @@
 #include "thicc.h"
 #include "scan.h"
 
-ccalculus compiler = { 0 };
+thicc compiler = { 0 };
 
 void argparse(int argc, char** argv) {
     char* argname;
@@ -37,8 +37,8 @@ void argparse(int argc, char** argv) {
 
 int main(int argc, char** argv) {
     if (argc < 2) {
-        fprintf(stderr, "usage: thicc -s [source] -o [out]\n");
         fprintf(stderr, "expected argument, received none\n");
+        fprintf(stderr, "usage: thicc -s [source] -o [out]\n");
         return -1;
     }
 
@@ -46,6 +46,12 @@ int main(int argc, char** argv) {
 
     compiler.buffer = fopen(compiler.buffname, "rb");
     compiler.tokenizer = &(Tokenizer) { 0 };
+
+    if (compiler.buffer == NULL) {
+        fprintf(stderr, "source %s does not exist\n", compiler.buffname);
+        fprintf(stderr, "usage: thicc -s [source] -o [out]\n");
+        return -1;
+    }
 
     thicc_tokenize_source();
 
