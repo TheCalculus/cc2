@@ -14,7 +14,7 @@ typedef enum {
     ARRAY      = 16,
     EXTERN     = 32,
     LITERAL    = 64,
-} TokenFlags;
+} token_flags;
 
 typedef enum {
     TOKEN_LITERAL,
@@ -39,7 +39,7 @@ typedef enum {
     TOKEN_AMPERSAND,
     TOKEN_ASTERISK,
     TOKEN_EOF,
-} TokenType;
+} token_type;
 
 typedef struct {
     char**     filename;
