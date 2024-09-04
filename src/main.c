@@ -1,11 +1,13 @@
+#include <assert.h>
 #include <ctype.h>
 #include <stdbool.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 
-#include "thicc.h"
+#include "parse.h"
 #include "scan.h"
+#include "thicc.h"
 
 thicc compiler = { 0 };
 
@@ -45,7 +47,6 @@ int main(int argc, char** argv) {
     argparse(argc, argv);
 
     compiler.buffer = fopen(compiler.buffname, "rb");
-    compiler.tokenizer = &(Tokenizer) { 0 };
 
     if (compiler.buffer == NULL) {
         fprintf(stderr, "source %s does not exist\n", compiler.buffname);
@@ -53,7 +54,24 @@ int main(int argc, char** argv) {
         return -1;
     }
 
+    compiler.tokenizer = &(Tokenizer) { 
+        .tokens = new_vector(sizeof(Token) * 10),
+    };
+
+    assert(compiler.tokenizer->tokens.data);
+
     thicc_tokenize_source();
+
+    compiler.parser = &(Parser) {
+        .ast = new_vector(sizeof(AstNode) * 10),
+    };
+
+    // check whether token vector is defined
+    if (compiler.tokenizer->tokens.data != NULL)
+        thicc_parse_tokens();
+
+    free_vector(&compiler.tokenizer->tokens);
+    free_vector(&compiler.parser->ast);
 
     fclose(compiler.buffer);
     return 0;

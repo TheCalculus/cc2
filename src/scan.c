@@ -3,8 +3,9 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-#include "thicc.h"
+#include "general.h"
 #include "scan.h"
+#include "thicc.h"
 
 // forwards
 static Token next_token         (Tokenizer* tokenizer);
@@ -134,6 +135,8 @@ void thicc_tokenize_source() {
     Token token;
 
     while ((token = next_token(compiler.tokenizer))
-            .type != TOKEN_EOF)
+            .type != TOKEN_EOF) {
+        push_vector(&compiler.tokenizer->tokens, &token);
         printf("%s", token.value);
+    }
 }
