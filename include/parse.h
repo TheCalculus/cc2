@@ -8,7 +8,7 @@
 #include "general.h"
 
 typedef struct {
-    Vector* ast;
+    Vector ast;
 } Parser;
 
 typedef enum {
@@ -107,5 +107,7 @@ struct AstNode {
         } Unary;
     };
 } AstNode;
+
+void thicc_parse_tokens();
 
 #endif
