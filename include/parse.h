@@ -8,7 +8,7 @@
 #include "general.h"
 
 typedef struct {
-    Vector ast;
+    Vector* ast;
 } Parser;
 
 typedef enum {

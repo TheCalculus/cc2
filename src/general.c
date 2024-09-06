@@ -6,7 +6,7 @@
 #include "general.h"
 
 Vector* new_vector(size_t size) {
-    Vector* vec = calloc(sizeof(Vector), 1);
+    Vector* vec = (Vector*)calloc(1, sizeof(Vector));
 
     vec->size = size;
     vec->data = malloc(size);

@@ -136,7 +136,7 @@ void thicc_tokenize_source() {
 
     while ((token = next_token(compiler.tokenizer))
             .type != TOKEN_EOF) {
-        push_vector(&compiler.tokenizer->tokens, &token);
+        push_vector(compiler.tokenizer->tokens, &token);
         printf("%s", token.value);
     }
 }
