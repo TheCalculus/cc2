@@ -57,7 +57,7 @@ int main(int argc, char** argv) {
     Tokenizer scanner = { .tokens = new_vector(sizeof(Token) * 10) };
     compiler.tokenizer = &scanner;
 
-    assert(compiler.tokenizer->tokens.data);
+    assert(compiler.tokenizer->tokens->data);
 
     thicc_tokenize_source();
 
@@ -65,11 +65,11 @@ int main(int argc, char** argv) {
     compiler.parser = &parser;
 
     // check whether token vector is defined
-    if (compiler.tokenizer->tokens.data != NULL)
+    if (compiler.tokenizer->tokens->data != NULL)
         thicc_parse_tokens();
 
-    free_vector(&compiler.tokenizer->tokens);
-    free_vector(&compiler.parser->ast);
+    free_vector(compiler.tokenizer->tokens);
+    free_vector(compiler.parser->ast);
 
     fclose(compiler.buffer);
     return 0;

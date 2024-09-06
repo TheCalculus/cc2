@@ -41,7 +41,7 @@ typedef struct {
 
 typedef struct {
     char    active;
-    Vector  tokens;
+    Vector* tokens;
 } Tokenizer;
 
 typedef struct {
