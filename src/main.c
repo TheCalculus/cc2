@@ -54,17 +54,15 @@ int main(int argc, char** argv) {
         return -1;
     }
 
-    compiler.tokenizer = &(Tokenizer) { 
-        .tokens = new_vector(sizeof(Token) * 10),
-    };
+    Tokenizer scanner = { .tokens = new_vector(sizeof(Token) * 10) };
+    compiler.tokenizer = &scanner;
 
     assert(compiler.tokenizer->tokens.data);
 
     thicc_tokenize_source();
 
-    compiler.parser = &(Parser) {
-        .ast = new_vector(sizeof(AstNode) * 10),
-    };
+    Parser parser = { .ast = new_vector(sizeof(AstNode) * 10) };
+    compiler.parser = &parser;
 
     // check whether token vector is defined
     if (compiler.tokenizer->tokens.data != NULL)
