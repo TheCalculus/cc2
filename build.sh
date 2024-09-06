@@ -2,4 +2,4 @@
 
 set -xa
 
-gcc -Iinclude/ src/*.c
+gcc -g -Iinclude/ src/*.c
