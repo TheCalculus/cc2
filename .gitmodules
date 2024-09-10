@@ -1,0 +1,3 @@
+[submodule "lib/despair"]
+	path = lib/despair
+	url = git@github.com:TheCalculus/despair.git
