@@ -1,3 +1,4 @@
+#include <assert.h>
 #include <ctype.h>
 #include <stdbool.h>
 #include <stdio.h>
@@ -7,13 +8,16 @@
 #include "scan.h"
 #include "thicc.h"
 
+extern thicc compiler;
+static Tokenizer* tokenizer;
+
 // forwards
-static Token next_token         (Tokenizer* tokenizer);
+static Token next_token         ();
 static bool  is_whitespace      (char ch);
 static bool  is_invalid         (char ch);
 static void  advance_buffer     ();
-static void  advance_characters (Tokenizer* tokenizer);
-static void  read_literal       (Tokenizer* tokenizer, Token* token);
+static void  advance_characters ();
+static void  read_literal       (Token* token);
 
 static bool
 is_invalid(char ch) {
@@ -27,19 +31,19 @@ advance_buffer() {
 }
 
 static void
-skip_whitespace(Tokenizer* tokenizer) {
+skip_whitespace() {
     while (isspace(tokenizer->active))
         advance_buffer();
 }
 
 static void
-advance_characters(Tokenizer* tokenizer) {
+advance_characters() {
     do { advance_buffer(tokenizer); }
     while (is_invalid(tokenizer->active));
 }
 
 static void
-read_identifier(Tokenizer* tokenizer, Token* token) {
+read_identifier(Token* token) {
     size_t i = 0;
 
     while (isalpha(tokenizer->active)) {
@@ -51,7 +55,7 @@ read_identifier(Tokenizer* tokenizer, Token* token) {
 }
 
 static Token
-next_token(Tokenizer* tokenizer) {
+next_token() {
     Token token = { 0 };
 
     skip_whitespace(tokenizer);
@@ -121,7 +125,7 @@ next_token(Tokenizer* tokenizer) {
             if (!isalpha(tokenizer->active)) break;
 
             token.type = TOKEN_LITERAL;
-            read_identifier(tokenizer, &token);
+            read_identifier(&token);
 
             return token;
     }
@@ -132,6 +136,9 @@ next_token(Tokenizer* tokenizer) {
 }
 
 void thicc_tokenize_source() {
+    tokenizer = compiler.tokenizer;
+    assert(tokenizer);
+
     Token token;
 
     while ((token = next_token(compiler.tokenizer))

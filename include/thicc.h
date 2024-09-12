@@ -15,16 +15,17 @@ typedef enum {
 } CompFlags;
 
 typedef struct {
-    FILE*      buffer;
-    char*      buffname; 
-    Tokenizer* tokenizer;
-    Parser*    parser;
+    SymbolPos pos;
+    CompFlags flags;
 
-    SymbolPos  pos;
-  
-    CompFlags  flags;
-    FILE*      outfile;
-    char*      outname;
+    FILE* buffer;
+    char* buffname;
+
+    FILE* outfile;
+    char* outname;
+
+    Tokenizer* tokenizer;
+    Parser* parser;
 } thicc;
 
 void argparse(int argc, char** argv);
