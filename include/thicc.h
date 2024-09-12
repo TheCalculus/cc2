@@ -10,8 +10,8 @@
 #include "parse.h"
 
 typedef enum {
-    INFILE     = 1,
-    OUTFILE    = 2,
+    INFILE  = 1,
+    OUTFILE = 2,
 } CompFlags;
 
 typedef struct {
@@ -26,8 +26,6 @@ typedef struct {
     FILE*      outfile;
     char*      outname;
 } thicc;
-
-extern thicc compiler;
 
 void argparse(int argc, char** argv);
 

@@ -1,10 +1,8 @@
 #include <stdio.h>
 
-#include "thicc.h"
-#include "scan.h"
 #include "parse.h"
-
-
+#include "scan.h"
+#include "thicc.h"
 
 void thicc_parse_tokens() {
 
