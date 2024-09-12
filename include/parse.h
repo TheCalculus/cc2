@@ -23,6 +23,21 @@ typedef enum {
     _TYPE_UNION,
 } DataType;
 
+typedef enum {
+    PLUS,
+    MINUS,
+    MULTIPLY,
+    DIVIDE,
+    MODULUS,
+} BinaryExpr_op;
+
+typedef enum {
+    PLUS,
+    MINUS,
+    INCREMENT,
+    DECREMENT,
+} UnaryExpr_op;
+
 enum {
     _BUILTIN_IS_SIGNED       = 1,
     _BUILTIN_IS_STATIC       = 2,
@@ -69,6 +84,7 @@ struct AstNode {
     union {
         union {
             // TODO: multiple variable declaration
+            // int a, b, c;
             struct {
                 BuiltinType type;
                 struct AstNode* init;
@@ -95,15 +111,27 @@ struct AstNode {
         } ExplicitCast;
 
         struct {
+            struct AstNode* expr;  
         } ReturnStmt;
 
         struct {
+            BuiltinType ret;
+
+            struct AstNode* args;
         } CallExpr;
 
         struct {
+            BinaryExpr_op op;
+
+            struct AstNode* left;
+            struct AstNode* right;
         } BinaryExpr;
 
         struct {
+            UnaryExpr_op op;
+            bool prefix; // ++i or i++
+
+            struct AstNode* expr;
         } Unary;
     };
 } AstNode;
