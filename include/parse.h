@@ -3,12 +3,13 @@
 
 // https://godbolt.org/z/bsndGaf3h
 
+#include <stdbool.h>
 #include <stdint.h>
 
 #include "general.h"
 
 typedef struct {
-    Vector* ast;
+    Vector* ast; // Vec<AstNode>
 } Parser;
 
 typedef enum {
@@ -24,16 +25,16 @@ typedef enum {
 } DataType;
 
 typedef enum {
-    PLUS,
-    MINUS,
+    BINEXP_PLUS,
+    BINEXP_MINUS,
     MULTIPLY,
     DIVIDE,
     MODULUS,
 } BinaryExpr_op;
 
 typedef enum {
-    PLUS,
-    MINUS,
+    UNARY_PLUS,
+    UNARY_MINUS,
     INCREMENT,
     DECREMENT,
 } UnaryExpr_op;

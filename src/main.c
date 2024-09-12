@@ -5,12 +5,12 @@
 #include <stdlib.h>
 #include <string.h>
 
+#include "thicc.h"
 #include "error.h"
 #include "parse.h"
 #include "scan.h"
-#include "thicc.h"
 
-thicc compiler = { 0 };
+thicc compiler;
 
 void argparse(int argc, char** argv) {
     char* argname;
@@ -39,6 +39,8 @@ void argparse(int argc, char** argv) {
 }
 
 int main(int argc, char** argv) {
+    compiler = (thicc) { 0 };
+
     if (argc < 2) {
         fprintf(stderr, "expected argument, received none\n");
         fprintf(stderr, "usage: thicc -s [source] -o [out]\n");
@@ -58,7 +60,7 @@ int main(int argc, char** argv) {
     Tokenizer scanner = { .tokens = new_vector(sizeof(Token) * 10) };
     compiler.tokenizer = &scanner;
 
-    assert(compiler.tokenizer->tokens->data);
+    assert(compiler.tokenizer);
 
     thicc_tokenize_source();
 

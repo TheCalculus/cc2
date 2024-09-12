@@ -4,6 +4,13 @@
 #include "scan.h"
 #include "thicc.h"
 
-void thicc_parse_tokens() {
+extern thicc compiler;
+static Parser* parser;
 
+// lalr(1)
+void thicc_parse_tokens() {
+    parser = compiler.parser;
+    assert(parser);
+
+    AstNode node;
 }
