@@ -1,5 +1,6 @@
 #include <assert.h>
 #include <stdint.h>
+#include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 
@@ -12,6 +13,11 @@ Vector* new_vector(size_t size) {
     vec->data = malloc(size);
 
     assert(vec->data);
+
+    if (!vec->data) {
+        fprintf(stderr, "allocation failed\n");
+        exit(EXIT_FAILURE);
+    }
 
     vec->peek = vec->index = 0;
 
