@@ -40,25 +40,25 @@ typedef enum {
 } UnaryExpr_op;
 
 enum {
-    _BUILTIN_IS_SIGNED       = 1,
-    _BUILTIN_IS_STATIC       = 2,
-    _BUILTIN_IS_CONST        = 4,
-    _BUILTIN_IS_POINTER      = 8,
-    _BUILTIN_IS_ARRAY        = 16,
-    _BUILTIN_IS_EXTERN       = 32,
-    _BUILTIN_IS_RESTRICT     = 64,
+    _BUILTIN_IS_SIGNED   = 1,
+    _BUILTIN_IS_STATIC   = 2,
+    _BUILTIN_IS_CONST    = 4,
+    _BUILTIN_IS_POINTER  = 8,
+    _BUILTIN_IS_ARRAY    = 16,
+    _BUILTIN_IS_EXTERN   = 32,
+    _BUILTIN_IS_RESTRICT = 64,
 };
 
 typedef struct {
     int flags; // signed, static, const, ptr, arr, extern, restrict
 
     union {
-        char        _char;
-        short       _short;
-        double      _double;
-        int         _int;
-        long        _long;
-        long long   _long2;
+        char      _char;
+        short     _short;
+        double    _double;
+        int       _int;
+        long      _long;
+        long long _long2;
     } Flavour;
 
     DataType type;
