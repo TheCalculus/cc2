@@ -26,7 +26,8 @@ is_invalid(char ch) {
 
 static void
 advance_buffer() {
-    compiler.tokenizer->active = getc(compiler.buffer);
+    // TODO: buffered read instead of getc()
+    tokenizer->active = getc(compiler.buffer);
     compiler.pos.row++;
 }
 
@@ -135,15 +136,15 @@ next_token() {
     return token;
 }
 
-void thicc_tokenize_source() {
-    tokenizer = compiler.tokenizer;
+void thicc_tokenize_source(Tokenizer* tok) {
+    tokenizer = tok;
     assert(tokenizer);
 
     Token token;
 
-    while ((token = next_token(compiler.tokenizer))
+    while ((token = next_token(tokenizer))
             .type != TOKEN_EOF) {
-        push_vector(compiler.tokenizer->tokens, &token);
+        push_vector(tokenizer->tokens, &token);
         printf("%s", token.value);
     }
 }

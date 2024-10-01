@@ -12,6 +12,9 @@
 typedef enum {
     INFILE  = 1,
     OUTFILE = 2,
+    DEBUG   = 4,
+    INTRPRT = 8, // otherwise compile
+    TARGET  = 16,
 } CompFlags;
 
 typedef struct {
@@ -23,9 +26,6 @@ typedef struct {
 
     FILE* outfile;
     char* outname;
-
-    Tokenizer* tokenizer;
-    Parser* parser;
 } thicc;
 
 void argparse(int argc, char** argv);

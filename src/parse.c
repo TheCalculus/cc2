@@ -9,8 +9,8 @@ extern thicc compiler;
 static Parser* parser;
 
 // lalr(1)
-void thicc_parse_tokens() {
-    parser = compiler.parser;
+void thicc_parse_tokens(Parser* parse) {
+    parser = parse;
     assert(parser);
 
     AstNode node;

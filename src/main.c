@@ -10,6 +10,11 @@
 #include "parse.h"
 #include "scan.h"
 
+#define WARN_USAGE()               fprintf(stderr, "usage: thicc -s [source] -o [out]\n");
+#define WARN_NOT_IMPLEMENTED(msg)  fprintf(stderr, "WARN: " msg " not yet implemented\n");
+
+// main compiler process
+// compiler process can be extern'd
 thicc compiler;
 
 void argparse(int argc, char** argv) {
@@ -34,16 +39,16 @@ void argparse(int argc, char** argv) {
     }
 
     // TODO: finish this
-    if (compiler.flags & INFILE == 0)
+    if (compiler.flags & INFILE != INFILE)
         fprintf(stderr, "no source provided with -s\n");
 }
 
-int main(int argc, char** argv) {
+int main(int argc, char** argv){
     compiler = (thicc) { 0 };
 
     if (argc < 2) {
         fprintf(stderr, "expected argument, received none\n");
-        fprintf(stderr, "usage: thicc -s [source] -o [out]\n");
+        WARN_USAGE();
         return -1;
     }
 
@@ -53,26 +58,36 @@ int main(int argc, char** argv) {
 
     if (compiler.buffer == NULL) {
         fprintf(stderr, "source %s does not exist\n", compiler.buffname);
-        fprintf(stderr, "usage: thicc -s [source] -o [out]\n");
+        WARN_USAGE();
         return -1;
     }
 
-    Tokenizer scanner = { .tokens = new_vector(sizeof(Token) * 10) };
-    compiler.tokenizer = &scanner;
+    #define INIT_VECTOR_SIZE 16
+    assert(INIT_VECTOR_SIZE > 0);
 
-    assert(compiler.tokenizer);
+    Tokenizer tokenizer = {
+        .flags = FROM_FILE | DEBUG,
+        .tokens = new_vector(sizeof(Token) * INIT_VECTOR_SIZE),
+    };
+    
+    thicc_tokenize_source(&tokenizer);
 
-    thicc_tokenize_source();
+    Parser parser = { .ast = new_vector(sizeof(AstNode) * INIT_VECTOR_SIZE) };
+    // token vector will never be NULL
+    thicc_parse_tokens(&parser);
 
-    Parser parser = { .ast = new_vector(sizeof(AstNode) * 10) };
-    compiler.parser = &parser;
+    // emit to target or interpret
 
-    // check whether token vector is defined
-    if (compiler.tokenizer->tokens->data != NULL)
-        thicc_parse_tokens();
+    WARN_NOT_IMPLEMENTED("code emission");
 
-    free_vector(compiler.tokenizer->tokens);
-    free_vector(compiler.parser->ast);
+    if (compiler.flags & INTRPRT == INTRPRT)
+    {
+        WARN_NOT_IMPLEMENTED("interpret");
+        return -1;
+    }
+
+    free_vector(tokenizer.tokens);
+    free_vector(parser.ast);
 
     fclose(compiler.buffer);
     return 0;
