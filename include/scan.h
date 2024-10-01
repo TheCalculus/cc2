@@ -39,9 +39,17 @@ typedef struct {
     uint8_t col;
 } SymbolPos;
 
+typedef enum {
+    FROM_FILE = 1, // otherwise from string
+    HIGHLIGHT = 2,
+//  DEBUG     = 4, // use compiler process debug flag instead 
+    HEAP_ONLY = 8, // TODO
+} ScanFlags;
+
 typedef struct {
-    char    active;
-    Vector* tokens;
+    ScanFlags flags;
+    char      active;
+    Vector*   tokens; // Vector of Token
 } Tokenizer;
 
 typedef struct {
@@ -50,6 +58,6 @@ typedef struct {
     TokenType type;
 } Token;
 
-void thicc_tokenize_source();
+void thicc_tokenize_source(Tokenizer* tok);
 
 #endif

@@ -8,8 +8,9 @@
 
 #include "general.h"
 
+// TODO: parser
 typedef struct {
-    Vector* ast; // Vec<AstNode>
+    Vector* ast; // Vector of AstNode
 } Parser;
 
 typedef enum {
@@ -137,6 +138,6 @@ struct AstNode {
     };
 } AstNode;
 
-void thicc_parse_tokens();
+void thicc_parse_tokens(Parser* parse);
 
 #endif
