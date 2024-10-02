@@ -68,13 +68,18 @@ int main(int argc, char** argv){
     Tokenizer tokenizer = {
         .flags = FROM_FILE | DEBUG,
         .tokens = new_vector(sizeof(Token) * INIT_VECTOR_SIZE),
+        .buffer = { 0 },
     };
+
+    tokenizer.active = (char*)tokenizer.buffer;
     
     thicc_tokenize_source(&tokenizer);
 
     Parser parser = { .ast = new_vector(sizeof(AstNode) * INIT_VECTOR_SIZE) };
     // token vector will never be NULL
     thicc_parse_tokens(&parser);
+
+    fflush(stdout);
 
     // emit to target or interpret
 
