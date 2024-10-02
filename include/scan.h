@@ -46,10 +46,14 @@ typedef enum {
     HEAP_ONLY = 8, // TODO
 } ScanFlags;
 
+#define TOKENIZER_BUFFER_LENGTH 4096
+#define TOKENIZER_BUFFER_SIZE   sizeof(char)
+
 typedef struct {
-    ScanFlags flags;
-    char      active;
-    Vector*   tokens; // Vector of Token
+    ScanFlags  flags;
+    Vector*    tokens; // Vector of Token
+    char*      active;
+    char       buffer[TOKENIZER_BUFFER_LENGTH]; // buffer for fread if input is a file
 } Tokenizer;
 
 typedef struct {
