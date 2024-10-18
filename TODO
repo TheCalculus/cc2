@@ -1,0 +1,7 @@
+- fix global variables
+- parser struct
+- linting, highlighting support
+- production assert
+- dangling pointers
+- parser itself
+- reduce inefficient operations

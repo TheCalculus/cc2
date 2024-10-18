@@ -20,14 +20,14 @@ typedef enum {
 typedef struct {
     SymbolPos pos;
     CompFlags flags;
-
+    Tokenizer* tokenizer;
+    Parser* parser;
     FILE* buffer;
     char* buffname;
-
     FILE* outfile;
     char* outname;
 } thicc;
 
-void argparse(int argc, char** argv);
+void argparse(int argc, char** argv, thicc* compiler);
 
 #endif

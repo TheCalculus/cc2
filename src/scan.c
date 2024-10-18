@@ -8,47 +8,57 @@
 #include "scan.h"
 #include "thicc.h"
 
-extern thicc compiler;
-static Tokenizer* tokenizer;
+static Token next_token(Tokenizer* tokenizer);
+static inline void advance_buffer(Tokenizer* tokenizer);
+static void advance_characters(Tokenizer* tokenizer);
+static void read_identifier(Tokenizer* tokenizer, Token* token);
+static void read_literal(Token* token);
 
-// forwards
-static Token next_token         ();
-static void  advance_buffer     ();
-static void  advance_characters ();
-static void  read_literal       (Token* token);
-
-#define TOKENIZER_ACTIVE_CHAR *tokenizer->active
-
-static void advance_buffer() {
-    tokenizer->active++;
-    compiler.pos.row++;
+Tokenizer* create_tokenizer() {
+    Tokenizer* tokenizer = (Tokenizer*)malloc(sizeof(Tokenizer));
+    assert(tokenizer);
+    tokenizer->flags = FROM_FILE | DEBUG;
+    tokenizer->tokens = new_vector(sizeof(Token) * INIT_VECTOR_SIZE);
+    return tokenizer;
 }
 
-static void advance_characters() {
-    while (isspace(TOKENIZER_ACTIVE_CHAR))
+void clean_tokenizer(Tokenizer* tokenizer) {
+    if (tokenizer == NULL) return;
+    free_vector(tokenizer->tokens);
+    free(tokenizer);
+    tokenizer = NULL;
+}
+
+static inline void advance_buffer(Tokenizer* tokenizer) {
+    tokenizer->active++;
+    // compiler.pos.row++;
+}
+
+static void advance_characters(Tokenizer* tokenizer) {
+    while (isspace(tokenizer->active))
         advance_buffer(tokenizer);
 }
 
-static void read_identifier(Token* token) {
+static void read_identifier(Tokenizer* tokenizer, Token* token) {
     size_t i = 0;
 
-    while (isalpha(TOKENIZER_ACTIVE_CHAR)) {
-        token->value[i++] = TOKENIZER_ACTIVE_CHAR;
+    while (isalpha(tokenizer->active)) {
+        token->value[i++] = tokenizer->active;
         advance_buffer(tokenizer);
     }
 
     token->value[i] = '\0';
 }
 
-static Token next_token() {
+static Token next_token(Tokenizer* tokenizer) {
     Token token = { 0 };
 
     advance_characters(tokenizer);
 
-    token.value[0] = TOKENIZER_ACTIVE_CHAR;
+    token.value[0] = tokenizer->active;
     token.value[1] = 0;
 
-    switch (TOKENIZER_ACTIVE_CHAR) {
+    switch (tokenizer->active) {
         case '(':
             token.type = TOKEN_LROUND;
             break;
@@ -107,10 +117,10 @@ static Token next_token() {
             break;
 
         default:
-            if (!isalpha(TOKENIZER_ACTIVE_CHAR)) break;
+            if (!isalpha(tokenizer->active)) break;
 
             token.type = TOKEN_LITERAL;
-            read_identifier(&token);
+            read_identifier(tokenizer, &token);
 
             return token;
     }
@@ -120,23 +130,26 @@ static Token next_token() {
     return token;
 }
 
-void thicc_tokenize_source(Tokenizer* tok) {
-    tokenizer = tok;
+#define DEBUG
+
+void thicc_tokenize_source(thicc* compiler) {
+    Tokenizer* tokenizer = compiler->tokenizer;
     assert(tokenizer);
 
     // assume FROM_FILE
-    while (!feof(compiler.buffer))
-    {
-        size_t nread = fread(tokenizer->buffer, sizeof(*tokenizer->buffer), TOKENIZER_BUFFER_LENGTH, compiler.buffer);
+    while (!feof(compiler->buffer)) {
+        size_t nread = fread(tokenizer->buffer, sizeof(*tokenizer->buffer), TOKENIZER_BUFFER_LENGTH, compiler->buffer);
         assert(nread > 0);
         tokenizer->active = (char*)tokenizer->buffer;
 
         Token token;
         for (size_t i = 0; i < nread; i++) {
-            if (TOKENIZER_ACTIVE_CHAR == '\0') return;
+            if (tokenizer->active == '\0') return;
             token = next_token(tokenizer);
             push_vector(tokenizer->tokens, &token);
+#ifdef DEBUG
             printf("%s", token.value);
+#endif
         }
     }
 }

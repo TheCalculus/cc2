@@ -3,6 +3,8 @@
 
 #include <stdint.h>
 
+#define INIT_VECTOR_SIZE 16
+
 typedef struct {
     void* data;
     size_t peek;

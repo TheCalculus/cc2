@@ -52,7 +52,7 @@ typedef enum {
 typedef struct {
     ScanFlags  flags;
     Vector*    tokens; // Vector of Token
-    char*      active;
+    char       active;
     char       buffer[TOKENIZER_BUFFER_LENGTH]; // buffer for fread if input is a file
 } Tokenizer;
 
@@ -63,5 +63,7 @@ typedef struct {
 } Token;
 
 void thicc_tokenize_source(Tokenizer* tok);
+Tokenizer* create_tokenizer();
+void clean_tokenizer(Tokenizer* tok);
 
 #endif

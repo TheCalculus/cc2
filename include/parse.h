@@ -139,5 +139,7 @@ struct AstNode {
 } AstNode;
 
 void thicc_parse_tokens(Parser* parse);
+Parser* create_parser();
+void clean_parser(Parser* parse);
 
 #endif
